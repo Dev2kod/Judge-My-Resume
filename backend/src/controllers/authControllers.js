@@ -30,12 +30,13 @@ const registerUserController = async(req,res)=>{
     const token = jwt.sign({id:user._id,username:user.username},process.env.JWT_SECRET,{expiresIn:"1d"})
     
     res.cookie("token",token)
-    
+     
     res.status(201).json({
         message: "user registered successfully",
         user:{
             id:user._id,
             username:user.username
+            email:user.email
         }
     })
 }
@@ -47,7 +48,11 @@ const registerUserController = async(req,res)=>{
  * @access public
  */
 const userLoginController = async(req,res)=>{
-    
+    const {email,password} = req.body;
+    if(!email || !password){
+        return res.status(400).json({message:"all fields are required"})
+    }
+
 }
 
-module.exports={registerUserController}
+module.exports={registerUserController,userLoginController}
